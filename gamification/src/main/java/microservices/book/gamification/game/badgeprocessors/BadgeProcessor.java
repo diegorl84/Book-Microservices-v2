@@ -1,6 +1,6 @@
 package microservices.book.gamification.game.badgeprocessors;
 
-import microservices.book.gamification.challenge.ChallengeSolvedDTO;
+import microservices.book.gamification.challenge.ChallengeSolvedEvent;
 import microservices.book.gamification.game.domain.BadgeType;
 import microservices.book.gamification.game.domain.ScoreCard;
 
@@ -14,7 +14,7 @@ public interface BadgeProcessor {
    * @return a BadgeType if the user is entitled to this badge, otherwise empty
    */
   Optional<BadgeType> processForOptionalBadge(
-      int currentScore, List<ScoreCard> scoreCardList, ChallengeSolvedDTO solved);
+      int currentScore, List<ScoreCard> scoreCardList, ChallengeSolvedEvent solved);
 
   /**
    * @return the BadgeType object that this processor is handling. You can use it to filter
