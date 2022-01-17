@@ -1,6 +1,5 @@
 package microservices.book.multiplication.challenge;
 
-import microservices.book.multiplication.serviceClients.GamificationServiceClient;
 import microservices.book.multiplication.user.User;
 import microservices.book.multiplication.user.UserRepository;
 import org.junit.jupiter.api.BeforeEach;
@@ -13,7 +12,6 @@ import java.util.List;
 import java.util.Optional;
 
 import static org.assertj.core.api.BDDAssertions.then;
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.AdditionalAnswers.returnsFirstArg;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
@@ -29,11 +27,12 @@ class ChallengeServiceImplTest {
 
   @Mock private ChallengeAttemptRepository attemptRepository;
 
-  @Mock private GamificationServiceClient gameClient;
+  //@Mock private GamificationServiceClient gameClient;
+  @Mock private ChallengeEventPub challengeEventPub;
 
   @BeforeEach
   public void setUp() {
-    challengeService = new ChallengeServiceImpl(userRepository, attemptRepository, gameClient);
+    challengeService = new ChallengeServiceImpl(userRepository, attemptRepository, challengeEventPub);
   }
 
   @Test
@@ -49,7 +48,7 @@ class ChallengeServiceImplTest {
     then(resultAttempt.isCorrect()).isTrue();
     verify(userRepository).save(new User("john_doe"));
     verify(attemptRepository).save(resultAttempt);
-    verify(gameClient).sendAttempt(resultAttempt);
+    verify(challengeEventPub).challegeSolved(resultAttempt);
   }
 
   @Test
